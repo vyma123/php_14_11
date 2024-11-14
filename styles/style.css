@@ -1,0 +1,106 @@
+
+*,
+::before,
+::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+.container{
+    padding: 2rem 2rem; 
+    position: relative; 
+    z-index: 0; 
+}
+
+.container .product_header{
+    border: 1px solid #00000032;
+    padding: 1rem;
+    box-shadow: 0 1px #00000020;
+}
+
+.container .product_header .product_header_top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container .product_header .product_header_top .input{
+    width: 50rem;
+}
+
+.container .product_header .product_header_bottom {
+  padding: 1rem 0 0 0;
+}
+.container .product_header .product_header_bottom select{
+  border-radius: 3px;
+}
+
+.container .product_header .product_header_bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+}
+
+/* start add product */
+
+.form_add_products div label{
+    font-size: 1rem !important;
+}
+
+
+/* featured image */
+.featured_image_box .image{
+    display: flex !important;
+    align-items: center;
+    gap: 18rem !important;
+}
+
+.featured_image{
+    width: 300px !important;
+}
+
+.box_button_add{
+    display: flex ;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 1rem !important;
+
+}
+
+
+
+/* start add property */
+.form_add_property{
+    padding: 2rem !important;
+
+}
+
+.form_add_property div label{
+    font-size: 1rem !important;
+}
+
+
+.d-none{
+    display: none;
+}
+
+
+.err_border{
+    border: red 1px solid !important;
+}
+
+.pagination_box{
+    text-align: center;
+}
+
+
+.edit_button i {
+    margin: 0 !important;
+    height: 0 !important;
+    color: #4847479d;
+}
+
+
