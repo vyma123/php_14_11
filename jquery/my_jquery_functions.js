@@ -76,22 +76,17 @@ $('#gallery').on('change', function() {
 
 
 document.getElementById('add_product').addEventListener('click', function() {
-    // Open the modal
     $('.ui.modal.product_box').modal('show');
 
-
-    // Fetch categories and tags via AJAX
     fetch('handler_product.php')
         .then(response => response.json())
         .then(data => {
             const categoriesSelect = document.getElementById('categories_select');
             const tagsSelect = document.getElementById('tags_select');
 
-            // Clear existing options
             categoriesSelect.innerHTML = '';
             tagsSelect.innerHTML = '';
 
-            // Populate categories
             data.categories.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category.id;
@@ -99,7 +94,6 @@ document.getElementById('add_product').addEventListener('click', function() {
                 categoriesSelect.appendChild(option);
             });
 
-            // Populate tags
             data.tags.forEach(tag => {
                 const option = document.createElement('option');
                 option.value = tag.id;
@@ -111,11 +105,11 @@ document.getElementById('add_product').addEventListener('click', function() {
 });
 
 $(document).on('click', '#addProductButton', function() {
-    $('#action_type').val('add_product');  // Set action type to add
+    $('#action_type').val('add_product');  
 });
 
 $(document).on('click', '#editProductButton', function() {
-    $('#action_type').val('edit_product');  // Set action type to edit
+    $('#action_type').val('edit_product');  
 });
 
 $(document).on('click', '.edit_button', function() {
@@ -324,8 +318,8 @@ $(document).on('submit', '#saveProduct', function(e){
 
 					$('#featured_image').val(''); 
 					$('#okMessage_product_update').removeClass('d-none').fadeIn(400); 
-					$('.pagination_box').load(location.href + " .pagination_box");
 					$('#gallery').val('');
+
 
 					setTimeout(function() {
 						$('#okMessage_product_update').fadeOut(400, function() {
@@ -336,18 +330,15 @@ $(document).on('submit', '#saveProduct', function(e){
 					var currentPage = $('.pagination-link.active').data('page');
 
 					
-					$('#tableID').load(location.href + " #tableID", function() {
+					$('.container').load(location.href + " .container", function() {
 						bindHoverEvents();
-                    });					
+					});			
 					$('#paginationBox').load(location.href + " #paginationBox > *", function() {
 						console.log(currentPage);
 					});
 					$('#paginationBoxx').load(location.href + " #paginationBoxx > *", function() {
 						console.log(currentPage);
 					});
-					// $('#box_table2').load(location.href + " #box_table2", function() {
-					// 	bindHoverEvents();
-                    // });		
 
 				}
 
@@ -381,7 +372,6 @@ $(document).on('click', '.edit_button', function(e) {
 				
             } else if(res.status == 200){				
 
-                // Populate product details
                 $('#product_id').val(res.data.id);
                 $('#product_name').val(res.data.product_name);
                 $('#sku').val(res.data.sku);
@@ -545,14 +535,14 @@ function prev(event){
 
 	var section = document.getElementById('box_table');
 
-	section.style.display = "none"; // Ẩn đi
+	section.style.display = "none"; 
 }
 
 
 function pagination_number(event){
 	event.preventDefault();
 	var section = document.getElementById('box_table');
-	section.style.display = "none"; // Ẩn đi
+	section.style.display = "none"; 
 }
 
 
@@ -561,9 +551,7 @@ function next(event){
 	var section = document.getElementById('box_table');
 	section.style.display = "none"; 
 }
-//pagination
 
-//filter_search
 
 
 let debounceTimeout;

@@ -140,21 +140,21 @@ margin-bottom: 20px;
 #action_box .box_delete_buttons {
   display: none; 
   left: 5rem;
+  cursor: pointer;
 }
 
 .gallery_name{
     width: 200px;
 }
 
-/* Thêm phần tử chứa hình ảnh */
 .gallery-container {
-    white-space: nowrap;   /* Không cho hình ảnh xuống dòng */
-    overflow-x: auto;      /* Hiển thị thanh cuộn ngang khi cần thiết */
-    max-width: 200px;      /* Đặt chiều rộng tối đa của phần chứa là 200px */
+    white-space: nowrap;   
+    overflow-x: auto;      
+    max-width: 200px;      
 }
 
 .gallery-container img {
-    display: inline-block; /* Đảm bảo hình ảnh hiển thị theo dạng ngang */
+    display: inline-block; 
 }
 
 #paginationBoxx{
@@ -167,7 +167,6 @@ margin-bottom: 20px;
 }
 
    </style>
-    <!-- link semantic ui -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css"  />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
@@ -233,7 +232,6 @@ margin-bottom: 20px;
                 $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $selectedTag = $_GET['tag'] ?? [];
                 foreach ($tags as $tag) {
-                    // Kiểm tra xem tag có trong mảng selectedTag không
                     $selected = in_array($tag['id'], $selectedTag) ? 'selected' : '';
                     echo "<option $selected value=\"{$tag['id']}\">" . htmlspecialchars($tag['name_']) . "</option>";
                 }
@@ -386,9 +384,13 @@ margin-bottom: 20px;
         $total_pages = ceil($total_records / $per_page_record);
 
         if ($page > 1) {
-            echo '<a class="none_pagination item pagination-link active" data-page="' . ($page - 1) . '">Prev</a>';
+            echo '<a class="none_pagination item pagination-link active" data-page="' . ($page - 1) . '">
+            <i class="arrow left icon"></i>
+            </a>';
         } else {
-            echo '<a class="item disabled">Prev</a>';
+            echo '<a class="item disabled">
+            <i class="arrow left icon"></i>
+            </a>';
         }
 
         for ($i = 1; $i <= $total_pages; $i++) {
@@ -397,9 +399,15 @@ margin-bottom: 20px;
         }
 
         if ($page < $total_pages) {
-            echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">Next</a>';
+            echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">
+<i class="arrow right icon"></i>
+
+            </a>';
         } else {
-            echo '<a class="item disabled">Next</a>';
+            echo '<a class="item disabled">
+<i class="arrow right icon"></i>
+
+            </a>';
         }
         ?>
     </div>
@@ -415,9 +423,14 @@ margin-bottom: 20px;
         $total_pages = ceil($total_records / $per_page_record);
 
         if ($page > 1) {
-            echo '<a class="none_pagination item pagination-link active" data-page="' . ($page - 1) . '">Prev</a>';
+            echo '<a class="none_pagination item pagination-link active" data-page="' . ($page - 1) . '">
+            <i class="arrow left icon"></i>
+            </a>';
         } else {
-            echo '<a class="item disabled">Prev</a>';
+            echo '<a class="item disabled">
+            <i class="arrow left icon"></i>
+
+            </a>';
         }
 
         for ($i = 1; $i <= $total_pages; $i++) {
@@ -426,9 +439,14 @@ margin-bottom: 20px;
         }
 
         if ($page < $total_pages) {
-            echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">Next</a>';
+            echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">
+<i class="arrow right icon"></i>
+            </a>';
         } else {
-            echo '<a class="item disabled">Next</a>';
+            echo '<a class="item disabled">
+<i class="arrow right icon"></i>
+
+            </a>';
         }
         ?>
     </div>
@@ -439,6 +457,7 @@ margin-bottom: 20px;
 
 <script src="./jquery/my_jquery_functions.js">
 </script>
+
 
 <script>
     
@@ -462,12 +481,10 @@ margin-bottom: 20px;
         $('#action_box .box_delete_buttons').css('display', 'none');
     });
 }
-
     
 $('#tableID').load(location.href + " #tableID", function() {
     console.log('#tableID content loaded');
     
-    // Gán lại sự kiện click sau khi tải lại nội dung
     $('#tableID').on('click', '.delete_buttons', function(event) {
         event.preventDefault();
         
@@ -476,7 +493,6 @@ $('#tableID').load(location.href + " #tableID", function() {
                 url: 'delete.php', 
                 type: 'POST',
                 success: function(response) {
-                    // Tải lại bảng và phân trang
                     $('#tableID').load(location.href + " #tableID", function() {
                         console.log('#tableID content reloaded');
                     });
@@ -498,12 +514,6 @@ $('#tableID').load(location.href + " #tableID", function() {
 });
 
 bindHoverEvents();
-
-
-    
- 
-  
-    // Gọi hàm bindHoverEvents sau khi trang đã sẵn sàng
 
     $('#category').dropdown();
     $('#tag').dropdown();

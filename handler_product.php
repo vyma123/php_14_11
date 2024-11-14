@@ -8,7 +8,6 @@ $categoryStmt = $pdo->prepare($categoryQuery);
 $categoryStmt->execute();
 $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch tags from database
 $tagQuery = "SELECT id, name_ FROM property WHERE type_ = 'tag'";
 $tagStmt = $pdo->prepare($tagQuery);
 $tagStmt->execute();
@@ -86,13 +85,11 @@ if (isset($_POST['action_type'])) {
             $file_name = $featured_image['name'];
             $file_tmp_name = $featured_image['tmp_name'];
             
-            // Define the upload directory
             $upload_dir = 'uploads/';
             if (!file_exists($upload_dir)) {
-                mkdir($upload_dir, 0777, true); // Create the directory if it doesn't exist
+                mkdir($upload_dir, 0777, true); 
             }
 
-            // Move the uploaded file to the specified directory
             if (move_uploaded_file($file_tmp_name, $upload_dir . $file_name)) {
                 if(empty($sku)){
                     $sku = generateSKU();
@@ -116,11 +113,9 @@ if (isset($_POST['action_type'])) {
             $gallery_images = $_FILES['gallery'];
             $gallery_filenames = [];
         
-            // Define the upload directory
             $upload_dir = 'uploads/';
             if (isset($_FILES['gallery']) && $_FILES['gallery']['error'][0] == 0) {
 
-            //xoa property ma lien ket voi id
             $query = "DELETE prop
             FROM property AS prop
             JOIN product_property AS pp ON prop.id = pp.property_id
@@ -130,27 +125,21 @@ if (isset($_POST['action_type'])) {
             $relatedStmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
             $relatedStmt->execute();
 
-            //xoa lien ket giua 2 id
             $query = "DELETE FROM product_property WHERE product_id = :product_id";
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
             $stmt->execute();
         
         
-            // Process each uploaded image
             foreach ($gallery_images['name'] as $key => $name) {
                 $tmp_name = $gallery_images['tmp_name'][$key];
                 $file_name = basename($name);
                 $target_path = $upload_dir . $file_name;
-        
-                  // Delete existing gallery entries for this product once
-          
-                // Move the uploaded file to the specified directory
+
                 if (move_uploaded_file($tmp_name, $target_path)) {
 
                     
 
-                    // Insert the unique image name into the database
                     $query = "INSERT INTO property (name_, type_) VALUES (:name_, 'gallery')";
                     $stmt = $pdo->prepare($query);
                     $stmt->bindParam(':name_', $file_name);
@@ -170,11 +159,6 @@ if (isset($_POST['action_type'])) {
         
             
         }
-
-    
-        
-       
-
       
 
         if (!empty($selected_categories)) {
@@ -314,7 +298,6 @@ if (isset($_POST['action_type'])) {
             }
         }
 
-        // Xử lý các thuộc tính danh mục và thẻ cho sản phẩm
         if (!empty($selected_categories) && is_array($selected_categories[0])) {
             $selected_categories = $selected_categories[0];
         }
@@ -341,15 +324,13 @@ if (isset($_POST['action_type'])) {
         }
         $responses[] = ['status' => 200, 'message' => 'Tags added successfully.'];
 
-        // Xử lý hình ảnh trong thư viện
         if (!empty($gallery_images['name'][0])) {
-            $unique_images = []; // Array to keep track of unique images
+            $unique_images = []; 
             
             foreach ($gallery_images['error'] as $key => $error) {
                 if ($error === UPLOAD_ERR_OK) {
                     $gallery_file_name = $gallery_images['name'][$key];
                     
-                    // Only proceed if this image hasn't been processed already
                     if (!in_array($gallery_file_name, $unique_images)) {
                         move_uploaded_file($gallery_images['tmp_name'][$key], 'uploads/' . $gallery_file_name);
         
@@ -361,7 +342,6 @@ if (isset($_POST['action_type'])) {
                             'message' => 'Gallery image ' . $gallery_file_name . ' uploaded successfully.'
                         ];
         
-                        // Add image to the array to prevent duplicates
                         $unique_images[] = $gallery_file_name;
                     }
                 }
@@ -382,16 +362,14 @@ if (isset($_GET['product_id'])) {
     $product_id = (int)$_GET['product_id'];
 
 
-    // Fetch product details
     $query = "SELECT * FROM products WHERE id = :product_id";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
     $stmt->execute();
 
     if ($stmt->rowCount() > 0) {
-        $product = $stmt->fetch(PDO::FETCH_ASSOC);  // Fetch the product details
+        $product = $stmt->fetch(PDO::FETCH_ASSOC);  
 
-        // Fetch categories associated with the product
         $categoryQuery = "SELECT id, name_ FROM property WHERE type_ = 'category'";
         $categoryStmt = $pdo->prepare($categoryQuery);
         $categoryStmt->execute();
@@ -406,7 +384,6 @@ if (isset($_GET['product_id'])) {
         $categoriesse = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         
-        // Fetch tags from database
         $tagQuery = "SELECT id, name_ FROM property WHERE type_ = 'tag'";
         $tagStmt = $pdo->prepare($tagQuery);
         $tagStmt->execute();
@@ -430,7 +407,6 @@ if (isset($_GET['product_id'])) {
         $gallery = $galleryStmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-        // Combine all data into a response array
         $res = [
             'status' => 200,
             'data' => $product,
@@ -443,7 +419,6 @@ if (isset($_GET['product_id'])) {
         ];
         
     } else {
-        // Product not found
         $res = [
             'status' => 404,
             'message' => 'Product not found',
@@ -454,9 +429,6 @@ if (isset($_GET['product_id'])) {
 }
 
 
-
-
-
 if (!isset($_POST['action_type']) && !isset($_GET['product_id'])) {
     $res = [
         'categories' => $categories,
@@ -465,10 +437,6 @@ if (!isset($_POST['action_type']) && !isset($_GET['product_id'])) {
     echo json_encode($res);
     return;
 }
-
-
-
-
 ?>
 
 

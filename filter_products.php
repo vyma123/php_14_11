@@ -231,9 +231,13 @@ echo '</div>';
 
    
         if ($page > 1) {
-            echo '<a class="item pagination-link active" data-page="' . ($page - 1) . '">Prev</a>';
+            echo '<a class="item pagination-link active" data-page="' . ($page - 1) . '">
+            <i class="arrow left icon"></i>
+            </a>';
         } else {
-            echo '<a class="item disabled">Prev</a>';
+            echo '<a class="item disabled">
+            <i class="arrow left icon"></i>
+            </a>';
         }
 
      
@@ -244,9 +248,14 @@ echo '</div>';
 
       
         if ($page < $total_pages) {
-            echo '<a class="item pagination-link" data-page="' . ($page + 1) . '">Next</a>';
+            echo '<a class="item pagination-link" data-page="' . ($page + 1) . '">
+        <i class="arrow right icon"></i>
+            </a>';
         } else {
-            echo '<a class="item disabled">Next</a>';
+            echo '<a class="item disabled">
+        <i class="arrow right icon"></i>
+
+            </a>';
         }
         ?>
     </div>
