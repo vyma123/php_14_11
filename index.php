@@ -250,6 +250,7 @@ margin-bottom: 20px;
         </div>
      
         <!-- table -->
+         <div class="mytable">
          <div id="box_table2"></div>
 
          <div id="box_table" class="box_table table_index">
@@ -287,8 +288,6 @@ margin-bottom: 20px;
                 if (count($results) > 0) {
                     foreach ($results as $row){
                     $product_id = $row['id']; ?>
-
-
             <tr>
             <td><?php echo htmlspecialchars($row['date'])?></td>
             <td class="product_name"><?php echo htmlspecialchars($row['product_name'])?></td>
@@ -357,7 +356,7 @@ margin-bottom: 20px;
                 <i class="edit icon"></i>
                 </button>
             
-                <a  class="delete_button" href="">
+                <a class="delete_button" data-id="<?= $row['id'] ?>">
                 <i class="trash icon"></i>
                 </a>
             </td>
@@ -371,7 +370,6 @@ margin-bottom: 20px;
             </table>
         </div>
          
-        
 
 <!-- pagination -->
 <div id="paginationBox" class="pagination_box">
@@ -400,13 +398,12 @@ margin-bottom: 20px;
 
         if ($page < $total_pages) {
             echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">
-<i class="arrow right icon"></i>
+        <i class="arrow right icon"></i>
 
             </a>';
         } else {
             echo '<a class="item disabled">
-<i class="arrow right icon"></i>
-
+        <i class="arrow right icon"></i>
             </a>';
         }
         ?>
@@ -440,16 +437,17 @@ margin-bottom: 20px;
 
         if ($page < $total_pages) {
             echo '<a class="none_pagination item pagination-link" data-page="' . ($page + 1) . '">
-<i class="arrow right icon"></i>
+        <i class="arrow right icon"></i>
             </a>';
         } else {
             echo '<a class="item disabled">
-<i class="arrow right icon"></i>
+        <i class="arrow right icon"></i>
 
             </a>';
         }
         ?>
     </div>
+</div>
 </div>
 
 </section>
@@ -458,17 +456,10 @@ margin-bottom: 20px;
 <script src="./jquery/my_jquery_functions.js">
 </script>
 
-
 <script>
-    
-
-
-
     document.getElementById('addProductButton').addEventListener('click', function() {
     let targetElement = document.getElementById('box_table');
     targetElement.style.display = 'block'; 
-
-    
 });
 
 
@@ -512,6 +503,8 @@ $('#tableID').load(location.href + " #tableID", function() {
         }
     });
 });
+
+
 
 bindHoverEvents();
 
@@ -575,6 +568,41 @@ $(document).ready(function () {
             }
         });
     }
+});
+
+
+//delete one product
+$(document).ready(function() {
+    $('.mytable').on('click', '.delete_button', function(event) {
+        event.preventDefault(); // Ngăn chặn load lại trang
+
+        const id = $(this).data('id'); // Lấy ID từ thuộc tính data-id
+
+        if (confirm("Bạn có chắc chắn muốn xóa mục này không?")) { // Xác nhận xóa
+            $.ajax({
+                url: 'delete_one_product.php', 
+                type: 'POST',
+                data: { id: id }, // Gửi ID tới server
+                success: function(response) {
+                    // Kiểm tra phản hồi từ server
+                    if (response == 'success') {
+                        alert('Đã xóa thành công');
+                        // Ẩn hoặc xóa mục khỏi giao diện mà không tải lại trang
+                        $(`a[data-id='${id}']`).closest('tr').remove();
+
+                        $('.mytable').load(location.href + " .mytable"); 
+                        
+
+                    } else {
+                        alert('Xóa không thành công');
+                    }
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra, vui lòng thử lại');
+                }
+            });
+        }
+    });
 });
 
 

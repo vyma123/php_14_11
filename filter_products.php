@@ -204,9 +204,9 @@ if (count($results) > 0) {
     <button  type='submit' value='" . htmlspecialchars($row['id']) . "' class='edit_button'>
         <i class='edit icon'></i>
     </button>
-    <a class='delete_button' href=''>
-        <i class='trash icon'></i>
-    </a>
+     <a class='delete_button' data-id='".$row['id'] ."'>
+                <i class='trash icon'></i>
+                </a>
     </td>";
 
     echo "</tr>";
@@ -265,7 +265,42 @@ echo '</div>';
 <script>
 
 
+//delete one product
+// $(document).ready(function() {
+//     $('#tableID').on('click', '.delete_button', function(event) {
+//         event.preventDefault(); // Ngăn chặn load lại trang
 
+//         const id = $(this).data('id'); // Lấy ID từ thuộc tính data-id
+
+//         if (confirm("Bạn có chắc chắn muốn xóa mục này không?")) { // Xác nhận xóa
+//             $.ajax({
+//                 url: 'delete_one_product.php', 
+//                 type: 'POST',
+//                 data: { id: id }, // Gửi ID tới server
+//                 success: function(response) {
+//                     // Kiểm tra phản hồi từ server
+//                     if (response == 'success') {
+//                         alert('Đã xóa thành công');
+//                         // Ẩn hoặc xóa mục khỏi giao diện mà không tải lại trang
+//                         $(`a[data-id='${id}']`).closest('tr').remove();
+
+//                         $('.mytable').load(location.href + " .mytable"); 
+//                         $('#paginationBox').load(location.href + " #paginationBox"); 
+//                         $('#paginationBoxx').load(location.href + " #paginationBoxx"); 
+
+
+
+//                     } else {
+//                         alert('Xóa không thành công');
+//                     }
+//                 },
+//                 error: function() {
+//                     alert('Có lỗi xảy ra, vui lòng thử lại');
+//                 }
+//             });
+//         }
+//     });
+// });
 
 
 
